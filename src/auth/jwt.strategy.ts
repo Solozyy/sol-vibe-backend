@@ -1,14 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { Strategy, ExtractJwt } from 'passport-jwt'; // Sẽ thay thế bằng logic custom nếu không dùng passport
 import { UsersService } from '../users/users.service';
-import { ConfigService } from '@nestjs/config'; // Sẽ cần cài đặt @nestjs/config
-
-// Tạm thời comment out passport-jwt vì yêu cầu không dùng passport
-// import { PassportStrategy } from '@nestjs/passport';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-// export class JwtStrategy extends PassportStrategy(Strategy) { // Tạm thời comment out
-export class JwtStrategy { // Sử dụng class thường thay vì extends PassportStrategy
+export class JwtStrategy {
   constructor(
     private usersService: UsersService,
     private configService: ConfigService, // Sẽ inject ConfigService sau khi cài đặt
@@ -22,13 +17,19 @@ export class JwtStrategy { // Sử dụng class thường thay vì extends Passp
 
   // Hàm validate này sẽ được gọi bởi AuthGuard (custom hoặc của @nestjs/jwt)
   async validate(payload: any) {
-    const user = await this.usersService.findByWalletAddress(payload.walletAddress);
+    const user = await this.usersService.findByWalletAddress(
+      payload.walletAddress,
+    );
     if (!user) {
       throw new UnauthorizedException();
     }
     // Trả về user object để có thể inject vào request
     // Không nên trả về password hay các thông tin nhạy cảm khác
-    return { userId: payload.sub, walletAddress: payload.walletAddress, username: payload.username };
+    return {
+      userId: payload.sub,
+      walletAddress: payload.walletAddress,
+      username: payload.username,
+    };
   }
 
   // Hàm này sẽ thay thế cho việc verify token của passport-jwt
@@ -39,7 +40,9 @@ export class JwtStrategy { // Sử dụng class thường thay vì extends Passp
       // return jwtService.verify(token);
       // Vì chưa có JwtService được inject đúng cách ở đây, sẽ implement sau khi AuthModule hoàn chỉnh
       // Tạm thời throw lỗi để báo hiệu cần implement
-      throw new Error('verifyToken not implemented in JwtStrategy without Passport');
+      throw new Error(
+        'verifyToken not implemented in JwtStrategy without Passport',
+      );
     } catch (e) {
       throw new UnauthorizedException('Invalid token');
     }

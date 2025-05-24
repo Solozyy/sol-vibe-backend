@@ -22,10 +22,10 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
-  console.log(`Swagger UI is running on: ${await app.getUrl()}/api-docs`);
+  console.log(`Swagger UI is running on: ${await app.getUrl()}/docs`);
 }
 bootstrap();
