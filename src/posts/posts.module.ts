@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from '../users/users.module';
 import { IpfsModule } from '../ipfs/ipfs.module';
+import { IpfsService } from '../ipfs/ipfs.service';
 
 @Module({
   imports: [
@@ -25,6 +26,6 @@ import { IpfsModule } from '../ipfs/ipfs.module';
     IpfsModule,
   ],
   controllers: [PostsController],
-  providers: [PostsService],
+  providers: [PostsService, IpfsService],
 })
 export class PostsModule {}
