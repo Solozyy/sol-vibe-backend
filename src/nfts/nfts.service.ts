@@ -72,7 +72,7 @@ export class NftsService {
       return {
         success: true,
         nftTokenId: nft.address.toBase58(),
-        metadataUri: nft.uri,
+        metadataUri: nft.uri,  
       };
     } catch (error) {
       console.error('Failed to create NFT:', error);

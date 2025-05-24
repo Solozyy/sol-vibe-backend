@@ -18,10 +18,10 @@ export class Post {
   nftUri?: string;
 
   @Prop({ default: 0 })
-  upVote?: number;
+  upvotesCount: number;
 
   @Prop({ default: 0 })
-  downVote?: number;
+  downvotesCount: number;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
