@@ -55,7 +55,7 @@ export class NftsService {
 
       // Create NFT using Metaplex
       const { nft } = await this.metaplex.nfts().create({
-        uri: createNftDto.metadata?.uri || createNftDto.image,
+        uri: createNftDto.uri,
         name: createNftDto.name,
         sellerFeeBasisPoints: createNftDto.seller_fee_basis_points || 500,
         creators: [
@@ -67,6 +67,8 @@ export class NftsService {
         isMutable: true,
         updateAuthority: this.keypair,
         mintAuthority: this.keypair,
+        tokenOwner: creatorPublicKey,
+        symbol: 'SOLVIBE',
       });
 
       return {
