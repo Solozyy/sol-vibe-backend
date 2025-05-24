@@ -19,9 +19,4 @@ export class IpfsController {
   uploadImage(@Body() uploadImageDto: UploadImageDto) {
     return this.ipfsService.uploadImage(uploadImageDto);
   }
-
-  @Post('upload-metadata')
-  uploadMetadata(@Body() metadataDto: CreateIpfsMetadataDto) {
-    return this.ipfsService.uploadMetadata(metadataDto);
-  }
 }

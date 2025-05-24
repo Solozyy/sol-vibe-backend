@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { NftsService } from './nfts.service';
-import { NftsController } from './nfts.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Nft, NftSchema } from './schemas/nft.schema';
+import { Post, PostSchema } from '../posts/schemas/post.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Nft.name, schema: NftSchema }])],
-  controllers: [NftsController],
+  imports: [
+    MongooseModule.forFeature([{ name: Post.name, schema: PostSchema }]),
+  ],
   providers: [NftsService],
   exports: [NftsService],
 })

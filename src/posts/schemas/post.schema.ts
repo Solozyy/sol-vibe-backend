@@ -5,7 +5,7 @@ export type PostDocument = Post & Document;
 
 @Schema({ timestamps: true })
 export class Post {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   walletAddress: string;
 
   @Prop({ required: true })
@@ -17,11 +17,13 @@ export class Post {
   @Prop()
   nftUri?: string;
 
-  @Prop()
+  @Prop({ default: 0 })
   upVote?: number;
 
-  @Prop()
+  @Prop({ default: 0 })
   downVote?: number;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
+
+PostSchema.index({ 'user.walletAddress': 1 }, { unique: false });

@@ -10,10 +10,6 @@ export class CreatePostDto {
   image: string;
 
   @IsString()
-  @IsOptional()
-  nftUri?: string;
-
-  @IsString()
   @IsNotEmpty()
   walletAddress: string;
 }
