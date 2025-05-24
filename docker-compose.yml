@@ -1,0 +1,21 @@
+version: '3.8' # Hoặc phiên bản bạn muốn, 3.8 là một lựa chọn tốt
+
+services:
+  mongodb:
+    image: mongo:latest # Bạn có thể chỉ định phiên bản cụ thể, ví dụ: mongo:6.0
+    container_name: solvibe_mongo
+    ports:
+      - "27017:27017" # Map cổng 27017 của container ra cổng 27017 của host
+    volumes:
+      - mongo_data:/data/db # Persist data trong một named volume tên là 'mongo_data'
+    environment:
+      # URI của bạn là mongodb://localhost:27017/solvibe
+      # Biến này sẽ tạo database 'solvibe' khi MongoDB khởi tạo LẦN ĐẦU TIÊN
+      # nếu bạn cũng cung cấp MONGO_INITDB_ROOT_USERNAME và MONGO_INITDB_ROOT_PASSWORD.
+      # Nếu không có user/pass, database 'solvibe' sẽ được tạo tự động
+      # khi ứng dụng của bạn kết nối và thực hiện ghi dữ liệu đầu tiên vào nó.
+      MONGO_INITDB_DATABASE: solvibe
+    restart: unless-stopped
+
+volumes:
+  mongo_data: # Định nghĩa named volume
