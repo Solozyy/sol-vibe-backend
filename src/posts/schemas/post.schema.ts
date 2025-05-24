@@ -6,7 +6,7 @@ export type PostDocument = Post & Document;
 @Schema({ timestamps: true })
 export class Post {
   @Prop({ required: true })
-  user: string;
+  walletAddress: string;
 
   @Prop({ required: true })
   content: string;
@@ -16,6 +16,12 @@ export class Post {
 
   @Prop()
   nftUri?: string;
+
+  @Prop()
+  upVote?: number;
+
+  @Prop()
+  downVote?: number;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

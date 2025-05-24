@@ -7,6 +7,7 @@ import { NftsModule } from '../nfts/nfts.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from '../users/users.module';
+import { IpfsModule } from '../ipfs/ipfs.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UsersModule } from '../users/users.module';
       }),
       inject: [ConfigService],
     }),
+    IpfsModule,
   ],
   controllers: [PostsController],
   providers: [PostsService],

@@ -3,38 +3,30 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Post } from './schemas/post.schema';
-import { NftsService } from '../nfts/nfts.service';
-import { CreateNftDto } from '../nfts/dto/create-nft.dto';
-import { UsersService } from '../users/users.service';
+import { IpfsService } from '../ipfs/ipfs.service';
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectModel(Post.name) private postModel: Model<Post>,
-    private readonly nftsService: NftsService,
-    private readonly usersService: UsersService,
+    private readonly ipfsService: IpfsService,
   ) {}
 
   async create(createPostDto: CreatePostDto) {
     try {
-      // Create NFT metadata
-      const nftDto: CreateNftDto = {
-        name: createPostDto.content,
-        description: `${createPostDto.content} by ${createPostDto.walletAddress}`,
+      // Upload metadata to IPFS
+      const nftUri = await this.ipfsService.uploadMetadata({
+        content: createPostDto.content,
         image: createPostDto.image,
-        creator: createPostDto.walletAddress,
-        external_url: `https://solvibe.art/content/${Date.now()}`,
-      };
-
-      // Mint NFT
-      const nftResult = await this.nftsService.create(nftDto);
+        walletAddress: createPostDto.walletAddress,
+      });
 
       // Create post in database
       const post = new this.postModel({
-        user: createPostDto.walletAddress,
+        walletAddress: createPostDto.walletAddress,
         content: createPostDto.content,
         image: createPostDto.image,
-        nftUri: nftResult.metadataUri,
+        nftUri,
       });
 
       const savedPost = await post.save();
@@ -42,19 +34,11 @@ export class PostsService {
       return {
         success: true,
         post: savedPost,
-        nft: nftResult,
+        nftUri,
       };
     } catch (error) {
-      console.error('Failed to create post with NFT:', error);
+      console.error('Failed to create post:', error);
       throw error;
     }
-  }
-
-  async findAll() {
-    return this.postModel.find().exec();
-  }
-
-  async findOne(id: string) {
-    return this.postModel.findById(id).exec();
   }
 }
