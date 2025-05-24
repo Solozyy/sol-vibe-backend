@@ -29,7 +29,7 @@ export class PostsService {
         description: createPostDto.content,
         image: createPostDto.image,
         creator: createPostDto.walletAddress,
-        metadata: ipfsResult.metadata,
+        uri: ipfsResult.uri,
       });
 
       // Create post in database

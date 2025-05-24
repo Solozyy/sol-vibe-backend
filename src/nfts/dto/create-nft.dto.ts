@@ -23,6 +23,10 @@ export class CreateNftDto {
   @IsNotEmpty()
   creator: string;
 
+  @IsString()
+  @IsNotEmpty()
+  uri: string;
+
   @IsNumber()
   @IsOptional()
   seller_fee_basis_points?: number = 500;
