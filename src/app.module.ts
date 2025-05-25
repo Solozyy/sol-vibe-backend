@@ -9,6 +9,7 @@ import { NftsModule } from './nfts/nfts.module';
 import { PostsModule } from './posts/posts.module';
 import { IpfsModule } from './ipfs/ipfs.module';
 import { VotesModule } from './votes/votes.module';
+import { MembershipsModule } from './memberships/memberships.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { VotesModule } from './votes/votes.module';
     PostsModule,
     IpfsModule,
     VotesModule,
+    MembershipsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
